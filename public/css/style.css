@@ -1,0 +1,108 @@
+#PanelErro {
+    width: 80%; 
+    margin: 0 auto; 
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.labelAzul {
+    color: #337ab7;
+    display: inline;
+    margin-right: 0px;
+}
+
+.h5Azul {
+    color: #337ab7;
+}
+
+.labelEspacamento {
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: inline-block;
+    
+}
+
+.labelValue {
+    display: inline;
+    color: black;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: auto; /* Permite que a tabela se ajuste ao contêiner */
+}
+
+
+p {
+    color: #337ab7;
+}
+
+table td {
+    text-align: left;
+   
+}
+
+.link-sem-sublinhado:hover {
+    text-decoration:none;
+    
+}
+
+.thNome {
+    padding-top: 9px;
+    padding-right: 100px;
+}
+
+
+.loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 2px solid indigo;
+    border-radius: 50%;
+    border-top-color: #0001;
+    display: inline-block;
+    animation: loadingspinner .7s linear infinite;
+}
+
+@keyframes loadingspinner {
+    0% {
+        transform: rotate(0deg)
+    }
+
+    100% {
+        transform: rotate(360deg)
+    }
+}
+
+#result {
+    overflow-x: auto;
+
+}
+
+
+.fixed-pagination {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f5f5f5; /* Opcional: Cor de fundo para o fundo da paginação */
+    border-top: 1px solid #ddd; /* Opcional: Linha superior para separar do conteúdo */
+    /*padding: 12px;  Espaçamento interno */
+}
+
+.panel {
+    position: relative;
+}
+
+
+
+
+
+
+
+  
