@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <title>Consulta de Arquivos</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script>
+        let currentPage = 1;
+        const limit = 5;
+
+        // Função para carregar a lista de arquivos
+        function loadFiles(page) {
+            $.get(`/listararquivos?page=${page}&limit=${limit}`, function(data) {
+                if (data.arquivos.length > 0) {
+                    let rows = '';
+                    data.arquivos.forEach(arquivo => {
+                        rows += `
+                            <tr>
+                                <td>${arquivo.nome}</td>
+                                <td>${arquivo.tamanho} KB</td>
+                                <td>${new Date(arquivo.dataCriacao).toLocaleString()}</td>
+                                <td><a href="/download/${arquivo.nome}" class="btn btn-info btn-sm">Download</a></td>
+                            </tr>
+                        `;
+                    });
+
+                    $('#result tbody').html(rows);
+                    $('#result').show();
+
+                    // Atualizar a paginação
+                    updatePagination(data.totalPages, data.currentPage);
+                } else {
+                    $('#result').hide();
+                    $('.mensagem').text('Nenhum arquivo encontrado.');
+                }
+            }).fail(function() {
+                alert('Erro ao carregar a lista de arquivos.');
+            });
+        }
+
+        // Função para atualizar os botões de paginação
+        function updatePagination(totalPages, currentPage) {
+            let pagination = '';
+
+            if (currentPage > 1) {
+                pagination += `<li class="page-item"><a class="page-link" href="#" onclick="loadFiles(${currentPage - 1})">&lt; Anterior</a></li>`;
+            }
+
+            for (let i = 1; i <= totalPages; i++) {
+                pagination += `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" onclick="loadFiles(${i})">${i}</a></li>`;
+            }
+
+            if (currentPage < totalPages) {
+                pagination += `<li class="page-item"><a class="page-link" href="#" onclick="loadFiles(${currentPage + 1})">Próximo &gt;</a></li>`;
+            }
+
+            $('.pagination').html(pagination);
+        }
+
+        $(document).ready(function() {
+            // Carregar os arquivos da página 1 quando a página for carregada
+            loadFiles(currentPage);
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="container mt-5">
+            <center><a href="/listar/v2" class="link-sem-sublinhado"><h3>Lista de arquivos</h3></a></center>
+            <br>
+            <!-- Dados -->
+            <div id="result" class="panel panel-default" style="display: none;">
+                <div class="panel-heading">Arquivos</div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="thNome">Nome</th>
+                                <th>KB</th>
+                                <th>Data Criação</th>
+                                <th>Baixar</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <p class="mensagem"></p>
+
+            <!-- Paginação -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm"></ul>
+            </nav>
+        </div>
+    </div>
+</body>
+</html>

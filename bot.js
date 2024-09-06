@@ -21,6 +21,7 @@ const saveMessageToFile = (userId, message) => {
     }
 };
 
+
 // Função para salvar mídia recebida
 const saveMediaToFile = async (media, userId, message) => {
     const logMessage = `-[${new Date().toLocaleString()}] - ${userId}: ${message}\n`;
@@ -89,7 +90,7 @@ const specificContact = process.env.CONTATO; // Substitua pelo número de telefo
 client.on('message', async msg => {
     await delay(1000); // Atraso para simular resposta mais natural
     const userId = msg.from;
-
+   
     // Responder ao comando de status
     if (msg.body.startsWith('/status')) {
         client.sendMessage(userId, '- Ativo');
@@ -98,7 +99,7 @@ client.on('message', async msg => {
 
     // Lógica para salvar mensagens de um contato específico
     if (msg.from === specificContact) {
-        saveMessageToFile(userId, msg.body);
+        saveMessageToFile(userId, msg.body);        
     }
 
     // Lógica para salvar mídia de um contato específico
@@ -108,6 +109,7 @@ client.on('message', async msg => {
             const fileName = await saveMediaToFile(media, userId, msg.body);
         }
     }
+
 });
 
 module.exports = client;

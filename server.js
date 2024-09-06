@@ -36,8 +36,12 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.get('/listar',authMiddleware, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'listar.html'));
+app.get('/listar/v1',authMiddleware, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'listarv1.html'));
+});
+
+app.get('/listar/v2',authMiddleware, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'listarv2.html'));
 });
 
 // Rota para verificar se o servidor está ativo
@@ -50,6 +54,56 @@ app.get('/', (req, res) => {
   `);
 });
 */
+
+const downloadFolder = path.join(__dirname, 'downloads'); // Defina o caminho da pasta
+
+// Rota para listar arquivos com paginação
+app.get('/listararquivos',authMiddleware ,(req, res) => {
+  const page = parseInt(req.query.page) || 1; // Página atual (por padrão, 1)
+  const limit = parseInt(req.query.limit) || 5; // Limite de arquivos por página (por padrão, 5)
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+
+  // Ler a pasta de downloads e obter os arquivos
+  fs.readdir(downloadFolder, (err, files) => {
+      if (err) {
+          return res.status(500).send('Erro ao listar arquivos');
+      }
+
+      // Obter detalhes dos arquivos (tamanho, data de criação, etc.)
+      const arquivos = files.map(file => {
+          const stats = fs.statSync(path.join(downloadFolder, file));
+          return {
+              nome: file,
+              tamanho: (stats.size / 1024).toFixed(2), // tamanho em KB
+              dataCriacao: stats.birthtime
+          };
+      });
+
+      const paginatedFiles = arquivos.slice(startIndex, endIndex);
+
+      // Responder com os arquivos paginados e a contagem total
+      res.json({
+          totalFiles: arquivos.length,  // Total de arquivos
+          totalPages: Math.ceil(arquivos.length / limit),  // Total de páginas
+          currentPage: page,  // Página atual
+          arquivos: paginatedFiles  // Arquivos para esta página
+      });
+  });
+});
+
+// Rota para download
+app.get('/download/:nomeArquivo',authMiddleware, (req, res) => {
+  const arquivo = req.params.nomeArquivo;
+  const filePath = path.join(downloadFolder, arquivo);
+
+  res.download(filePath, err => {
+      if (err) {
+          res.status(500).send('Erro ao baixar o arquivo');
+      }
+  });
+});
+
 
 // Rota para listar arquivos
 app.get('/files',authMiddleware, (req, res) => {
