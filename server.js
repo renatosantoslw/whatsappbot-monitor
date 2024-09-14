@@ -1,4 +1,6 @@
 // server.js
+console.log(`- Server Web-http: inicializando...`);
+
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
@@ -76,7 +78,7 @@ app.get('/listararquivos',authMiddleware ,(req, res) => {
           return {
               nome: file,
               tamanho: (stats.size / 1024).toFixed(2), // tamanho em KB
-              dataCriacao: stats.birthtime
+              dataCriacao: stats.mtime
           };
       });
 
@@ -103,7 +105,6 @@ app.get('/download/:nomeArquivo',authMiddleware, (req, res) => {
       }
   });
 });
-
 
 // Rota para listar arquivos
 app.get('/files',authMiddleware, (req, res) => {
@@ -227,7 +228,7 @@ app.get('/files/download-all',authMiddleware, (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`- Servidor rodando na porta: ${PORT}`);
+  console.log(`- Server Web-http: inicializado. PORTA: ${PORT}`);
 });
 
 module.exports = app;

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <title>Consulta de Arquivos</title>
+    <title>Web-Server - Listar V2</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/style.css">
@@ -21,7 +21,7 @@
                         rows += `
                             <tr>
                                 <td>${arquivo.nome}</td>
-                                <td>${arquivo.tamanho} KB</td>
+                                <td>${(arquivo.tamanho / 1024).toFixed(2)} KB</td>
                                 <td>${new Date(arquivo.dataCriacao).toLocaleString()}</td>
                                 <td><a href="/download/${arquivo.nome}" class="btn btn-info btn-sm">Download</a></td>
                             </tr>
@@ -31,14 +31,17 @@
                     $('#result tbody').html(rows);
                     $('#result').show();
 
+                    // Atualizar página atual global
+                    currentPage = data.currentPage;
+
                     // Atualizar a paginação
                     updatePagination(data.totalPages, data.currentPage);
                 } else {
                     $('#result').hide();
-                    $('.mensagem').text('Nenhum arquivo encontrado.');
+                    $('.mensagem').text('Nenhum arquivo encontrado.').css('color', 'blue');
                 }
             }).fail(function() {
-                alert('Erro ao carregar a lista de arquivos.');
+                $('.mensagem').text('Erro ao carregar a lista de arquivos.').css('color', 'red');
             });
         }
 
@@ -70,12 +73,11 @@
 <body>
     <div class="container">
         <div class="container mt-5">
-            <center><a href="/listar/v2" class="link-sem-sublinhado"><h3>Lista de arquivos</h3></a></center>
+            <center><a href="/" class="link-sem-sublinhado"><h3>Web-Server</h3></a></center>
             <br>
             <!-- Dados -->
-            <div id="result" class="panel panel-default" style="display: none;">
+            <div id="result" class="panel panel-primary" style="display: none;">
                 <div class="panel-heading">Arquivos</div>
-
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>

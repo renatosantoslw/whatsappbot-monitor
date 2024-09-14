@@ -12,11 +12,15 @@ Dependencias:<br>
   "whatsapp-web.js": "github:pedroslopez/whatsapp-web.js"<br>
 <br>
 Instalação: npm install
+<br>
 Execução: node index.js
 <hr>
 
 ## Tecnologias 
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-plain-wordmark.svg" width="40" height="40"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" width="40" height="40"/>
+
+## Qr-Code 
+![](https://raw.githubusercontent.com/renatosantoslw/WhatsAppBot-monitor/main/images/qrcode.gif)
 
 ## Bot 
 ![](https://raw.githubusercontent.com/renatosantoslw/WhatsAppBot-monitor/main/images/bot.gif)
