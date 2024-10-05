@@ -1,8 +1,11 @@
 # WhatsAppBot-monitor
 
 <h3>-Devido a alterações de segurança feitas pelo Meta por enquanto não é mais possivel salvar arquivos de visualização única usando o Chromium :(</h3>
-<hr>
-Bot para monitorar conversas e mídias de um contato especifico no WhatsApp <br> 
+
+## Sobre
+Bot para monitorar/salvar conversas e mídias enviadas a partir de um contato especifico no WhatsApp <br> 
+
+### Tecnologias
 Back-end: Node.js <br>
 Front-end: HTML, CSS, JS, Bootstrap <br>
 Dependencias:<br>
