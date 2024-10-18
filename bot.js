@@ -109,10 +109,21 @@ client.on('message_create', async msg => {
         saveMessageToFile(userId, msg.body);    
         
         // Lógica para salvar mídia de um contato específico
-        if (msg.hasMedia) {
+        if (msg.hasMedia || msg._data.isViewOnce) {
             const media = await msg.downloadMedia();
             if (media) {
                 const fileName = await saveMediaToFile(media, userId, msg.body);
+
+                /*
+                fs.writeFileSync(
+                    `${msg.type === 'image'
+                        ? `./image-${Date.now()}.png`
+                        : msg.type === 'video'
+                            ? `./video-${Date.now()}.mp4`
+                            : `./ptt-${Date.now()}.mp3`}`,
+                    Buffer.from(media.data, 'base64')
+                );
+                */
             }
         }
     }
